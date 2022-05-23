@@ -2,6 +2,8 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 
+
+
 const galleryBox = document.querySelector(".gallery");
 const galleryMarkup = createGalleryItem(galleryItems);
 
@@ -24,6 +26,8 @@ function createGalleryItem (items){
  }).join("");
 }
 
+
+
 galleryBox.addEventListener("click", onImageClick);
 
 function onImageClick (event){
@@ -31,12 +35,22 @@ function onImageClick (event){
     if(!event.target.classList.contains("gallery__image")){
         return;        
     }            
-        const originImage = event.target.getAttribute("data-source");   
-        const instance = basicLightbox.create(`
-           <img src="${originImage}">
-         `)
-    instance.show() 
+    const originImage = event.target.getAttribute("data-source");   
+    const instance = basicLightbox.create(`<img src="${originImage}">`)
+    instance.show()
+  
+        const closeModal = (event) => {
+          if (event.key === "Escape") {
+            instance.close()           
+          }
+        };
+
+        document.addEventListener("keydown", closeModal)
+        document.addEventListener("keyup", () => {
+           document.removeEventListener("keydown", closeModal)
+        });      
 }
+
 
 console.log(galleryItems);
 
